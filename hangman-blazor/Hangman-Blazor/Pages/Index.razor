@@ -1,0 +1,97 @@
+﻿@page "/index.html"
+@using System.Net
+@inject HttpClient Http
+
+
+<h1>Hangman</h1>
+<div class='state @(@GameText != string.Empty ? string.Empty : "hidden")'>
+    <span>@GameText</span>
+    <button class="btn-primary" @onclick="InitializeGame">Restart</button>
+</div>
+<div class='game @(@GameText == string.Empty ? string.Empty : "hidden")'>
+    <div>
+        @foreach (char solvedCharacter in SolvedWord)
+        {
+            <span>@solvedCharacter</span>
+        }
+    </div>
+    <div class="alphabet-container">
+        @foreach (char character in Alphabet)
+        {
+            <button class="btn-primary alphabet-button" @onclick="() => EnterCharacter(character)" disabled="@TriedChars.Contains(character)">@character</button>
+        }
+    </div>
+</div>
+
+@code
+{
+    public string[] Words = {};
+    private readonly Random _random = new Random();
+    public string Word = "Test";
+    public char[] SolvedWord = {};
+    public int Tries = 5;
+    public HashSet<char> TriedChars;
+    public char[] Alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray();
+    public string GameText = "";
+
+    public async Task InitializeGame()
+    {
+        this.TriedChars = new HashSet<char>();
+        this.Tries = 5;
+        this.GameText = "";
+        if (Words.Length < 1)
+        {
+            Words = await InitializeWordRepository();
+        }
+        Word = Words[_random.Next(0, Words.Length)].ToUpper();
+        SolvedWord = Word.Select(e => e = '_').ToArray();
+        Console.WriteLine(Word);
+    }
+
+    public async Task<string[]> InitializeWordRepository()
+    {
+        var wordString = await Http.GetStringAsync("/data/words.txt");
+        string[] lines = wordString.Split(new[] {Environment.NewLine}, StringSplitOptions.None);
+        return lines;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await InitializeGame();
+    }
+
+    private void EnterCharacter(char character)
+    {
+        this.TriedChars.Add(character);
+        if (Word.Contains(character))
+        {
+            for (int i = 0; i < Word.Length; i++)
+            {
+                if (Word[i] == character)
+                    SolvedWord[i] = character;
+            }
+            if (!SolvedWord.Contains('_'))
+            {
+                GameWon();
+            }
+        }
+        else
+        {
+            Tries--;
+            if (Tries == 0)
+            {
+                GameOver();
+            }
+        }
+    }
+
+    private void GameOver()
+    {
+        GameText = "You Lost";
+    }
+
+    private void GameWon()
+    {
+        GameText = "You Won";
+    }
+}
