@@ -6,5 +6,53 @@
     },
     "is_top_level": true,
     "variables": {}
+  },
+  "cordova-plugin-wkwebview-engine": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-wkwebview-engine"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-labs-wkwebview-engine-localhost": {
+    "source": {
+      "type": "registry",
+      "id": "https://github.com/apache/cordova-plugins.git#wkwebview-engine-localhost"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-labs-local-webserver": {
+    "source": {
+      "type": "registry",
+      "id": "git+https://github.com/apache/cordova-plugins.git#local-webserver"
+    },
+    "is_top_level": false,
+    "variables": {}
+  },
+  "cordova-plugin-wkwebviewxhrfix": {
+    "source": {
+      "type": "registry",
+      "id": "https://github.com/TheMattRay/cordova-plugin-wkwebviewxhrfix"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "com.rjfun.cordova.httpd": {
+    "source": {
+      "type": "registry",
+      "id": "https://github.com/floatinghotpot/cordova-httpd.git"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-cleartext": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-cleartext"
+    },
+    "is_top_level": true,
+    "variables": {}
   }
 }
