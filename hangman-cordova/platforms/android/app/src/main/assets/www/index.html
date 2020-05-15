@@ -38,6 +38,9 @@
     let httpServer = null;
 
     function onLoad() {
+        if(cordova.platformId === 'browser') {
+            window.location = "wwwroot/";
+        }
         document.addEventListener("deviceready", onDeviceReady, false);
     }
 

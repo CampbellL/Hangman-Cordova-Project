@@ -17,20 +17,13 @@
   </ItemGroup>
 
   <Target Name="ReplacePaths" AfterTargets="Build">
-    <ReadLinesFromFile
-            File="$(TargetDir)$(BaseBlazorRuntimeOutputPath)blazor.webassembly.js" >
-      <Output
-              TaskParameter="Lines"
-              ItemName="FileContent"/>
+    <ReadLinesFromFile File="$(TargetDir)$(BaseBlazorRuntimeOutputPath)blazor.webassembly.js">
+      <Output TaskParameter="Lines" ItemName="FileContent" />
     </ReadLinesFromFile>
     <PropertyGroup>
-      <ModifiedContent>@(FileContent->Replace("_framework", "framework")->Replace("_bin", "bin"))</ModifiedContent>
+      <ModifiedContent>@(FileContent-&gt;Replace("_framework", "framework")-&gt;Replace("_bin", "bin"))</ModifiedContent>
     </PropertyGroup>
-    <WriteLinesToFile
-            File="$(TargetDir)$(BaseBlazorRuntimeOutputPath)blazor.webassembly.js"
-            Lines="$(ModifiedContent)"
-            Overwrite="true"
-            Encoding="Unicode"/>
+    <WriteLinesToFile File="$(TargetDir)$(BaseBlazorRuntimeOutputPath)blazor.webassembly.js" Lines="$(ModifiedContent)" Overwrite="true" Encoding="Unicode" />
   </Target>
   
 
